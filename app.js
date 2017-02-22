@@ -1,7 +1,7 @@
 import app from 'lib/server'
 
-const PORT = process.env.PORT || 3000
+import config from './config'
 
-app.listen(PORT, function () {
-  console.log('Server listening on', PORT)
+const server = app.listen(config.port, function () {
+  console.log('Server listening on', server.address().port)
 })
