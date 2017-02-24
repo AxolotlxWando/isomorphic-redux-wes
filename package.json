@@ -4,16 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=production node .",
-    "dev-server": "nodemon -e js,jsx,json -w app.js -w lib -i lib/client -x \"webpack --config webpack/dev/webpack.server.config && NODE_ENV=development node build/app\"",
+    "build": "webpack --progress --color -p --config webpack/prod/webpack.config.js",
+    "start": "cross-env NODE_ENV=production node build/app",
     "dev": "npm-run-all -p dev-server dev-browser",
-    "dev-browser": "webpack-dev-server --config webpack/dev/webpack.browser.config --progress -d --color --inline --hot",
-    "build": "webpack --progress --color -p --config webpack.prod.config.js"
+    "dev-server": "nodemon -e js,jsx,json -w app.js -w lib -i lib/client -x \"webpack --config webpack/dev/webpack.server.config && NODE_ENV=development node build/app\"",
+    "dev-browser": "webpack-dev-server --config webpack/dev/webpack.browser.config --progress -d --color --inline --hot --quiet --display-error-details"
   },
   "author": "Wesley Wang zakudesune@gmail.com",
   "license": "MIT",
   "dependencies": {
     "autoprefixer": "^6.7.3",
+    "copy-webpack-plugin": "^4.0.1",
+    "cross-env": "^3.1.4",
     "express": "^4.14.0",
     "history": "^4.5.0",
     "immutable": "^3.8.1",
@@ -23,7 +25,8 @@
     "react-redux": "^5.0.1",
     "react-router": "^3.0.0",
     "redux": "^3.6.0",
-    "redux-immutable": "^3.1.0"
+    "redux-immutable": "^3.1.0",
+    "webpack": "^1.12.15"
   },
   "devDependencies": {
     "babel-core": "^6.23.1",
@@ -36,9 +39,8 @@
     "npm-run-all": "^4.0.1",
     "react-transform-catch-errors": "^1.0.2",
     "redbox-react": "^1.3.3",
-    "webpack": "^1.14.0",
     "webpack-dev-middleware": "^1.9.0",
-    "webpack-dev-server": "^1.16.3",
+    "webpack-dev-server": "^1.12.1",
     "webpack-hot-middleware": "^2.14.0",
     "webpack-node-externals": "^1.5.4"
   }

@@ -1,16 +1,20 @@
 
-var webpack = require('webpack');
-var path = require('path');
+var webpack = require('webpack')
+var path = require('path')
+
+var optimize = webpack.optimize
+var CopyWebpackPlugin = require('copy-webpack-plugin')
 var autoprefixer = require('autoprefixer')
 
 var config = require('../../config')
 
 module.exports = {
-  devtool: 'source-map',
-  entry: './lib/client',
+  entry: {
+    bundle: './lib/client/'
+  },
   output: {
-    path: path.join(__dirname, '..', '..', 'assets'),
-    filename: 'bundle.js',
+    path: path.join(__dirname, '..', '..', 'public', 'assets'),
+    filename: '[name].js',
     publicPath: 'http://localhost:' + config.devPort + '/assets/'
   },
   resolve: {
@@ -46,21 +50,27 @@ module.exports = {
         loader: 'style-loader!css-loader?modules&importLoaders=1&localIdentName=[path][name]__[local]--[hash:base64:5]!scss-loader'
       },
       {
-        test: /\.(png|jpg|jpeg)$/,
+        test: /\.(png|jpg|jpeg|gif)$/,
         loader: 'url-loader'
       }
     ]
   },
-  plugin: [
+  plugins: [
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': JSON.stringify('development')
       }
-    })
+    }),
+    new optimize.OccurenceOrderPlugin(),
+    new optimize.CommonsChunkPlugin('common.js', ['bundle']),
+    new CopyWebpackPlugin([
+      { context: 'assets', from: '**/*' }
+    ])
   ],
   postcss: function () {
     return [autoprefixer]
   },
+  devtool: 'source-map',
   devServer: {
     port: config.devPort,
     contentBase: 'http://localhost:' + config.port

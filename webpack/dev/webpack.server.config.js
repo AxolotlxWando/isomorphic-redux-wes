@@ -46,14 +46,14 @@
  * an Babel plugin followed by React Loader 3 currently in experimental state.
  */
 
-var webpack = require('webpack');
-var path = require('path');
-var nodeExternals = require('webpack-node-externals');
+var webpack = require('webpack')
+var path = require('path')
+
+var nodeExternals = require('webpack-node-externals')
+var autoprefixer = require('autoprefixer')
 
 module.exports = {
-  externals: [nodeExternals()],
   target: 'node',
-  devtool: 'sourcemap',
   entry: './app.js',
   output: {
     path: path.join(__dirname, '..', '..', 'build'),
@@ -64,6 +64,7 @@ module.exports = {
     moduleDirectories: ['node_modules'],
     extensions: ['', '.js', '.jsx', '.json']
   },
+  externals: [nodeExternals()],
   module: {
     loaders: [
       {
@@ -85,15 +86,15 @@ module.exports = {
       },
       {
         test: /\.(css|scss)/,
-        loader: 'css-loader?modules&importLoaders=1&localIdentName=[path][name]__[local]--[hash:base64:5]!scss-loader',
+        loader: 'css-loader?modules&importLoaders=1&localIdentName=[path][name]__[local]--[hash:base64:5]!scss-loader'
       },
       {
-        test: /\.(png|jpg|jpeg)$/,
+        test: /\.(png|jpg|jpeg|gif)$/,
         loader: 'url-loader'
       }
     ]
   },
-  plugin: [
+  plugins: [
     new webpack.BannerPlugin('require("source-map-support").install();', {
       raw: true,
       entryOnly: false
@@ -103,5 +104,9 @@ module.exports = {
         'NODE_ENV': JSON.stringify('development')
       }
     })
-  ]
+  ],
+  postcss: function () {
+    return [autoprefixer]
+  },
+  devtool: 'sourcemap'
 }
