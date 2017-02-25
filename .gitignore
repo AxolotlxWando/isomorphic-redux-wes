@@ -1,5 +1,5 @@
 .isomorphic-redux-wesrc
 
-public
+public/
 build
 node_modules
