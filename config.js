@@ -1,5 +1,4 @@
 var rc = require('rc');
-var path = require('path')
 
 module.exports = rc('isomorphic-redux-wes', {
   port: process.env.PORT || 3001,
