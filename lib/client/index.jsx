@@ -4,14 +4,16 @@ import { render } from 'react-dom'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import Immutable from 'immutable'
-import { Router, browserHistory } from 'react-router'
+import { Router, useRouterHistory } from 'react-router'
+import { createHistory } from 'history'
 
+import config from '../../config'
 import rootReducer from 'lib/shared/reducers'
 import routes from 'lib/shared/routes'
 
 let initialState = window.__INITIAL_STATE__
 
-/* Handcrafting an Isomorphic Redux Application tutorial uses immutable.js in
+/* Handcrafting an Isomorphic Redux Applpathication tutorial uses immutable.js in
  * state objects. A gotcha/ hack in code that has not got much attention is
  * where redux's createStore initial stores with initialStates.
  *
@@ -35,12 +37,16 @@ let initialState = window.__INITIAL_STATE__
 
 const store = createStore(rootReducer, Immutable.fromJS(initialState))
 
+const history = useRouterHistory(createHistory)({
+  basename: config.deploymentURLMapping
+})
+
 console.log('before (server render)')
 console.log(document.body.innerHTML)
 
 render(
   <Provider store={store}>
-    <Router children={routes} history={browserHistory} />
+    <Router children={routes} history={history} />
   </Provider>,
   document.getElementById('react-view')
 )
