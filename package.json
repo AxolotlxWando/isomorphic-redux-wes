@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --progress --color -p --config webpack/prod/webpack.config.js",
+    "build-dev": "webpack --progress --color -p -d --config webpack/prod/webpack.debug.config.js",
     "start": "cross-env NODE_ENV=production node build/app",
     "dev": "npm-run-all -p dev-server dev-browser",
     "dev-server": "nodemon -e js,jsx,json -w app.js -w lib -i lib/client -x \"webpack --config webpack/dev/webpack.server.config && NODE_ENV=development node build/app\"",
@@ -17,7 +18,6 @@
     "copy-webpack-plugin": "^4.0.1",
     "cross-env": "^3.1.4",
     "express": "^4.14.0",
-    "history": "^2.1.2",
     "immutable": "^3.8.1",
     "rc": "^1.1.7",
     "react": "^15.4.1",

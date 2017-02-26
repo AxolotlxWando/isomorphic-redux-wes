@@ -4,10 +4,9 @@ import { render } from 'react-dom'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import Immutable from 'immutable'
+import createBrowserHistory from 'react-router/node_modules/history/lib/createBrowserHistory'
 import { Router, useRouterHistory } from 'react-router'
-import { createHistory } from 'history'
 
-import config from '../../config'
 import rootReducer from 'lib/shared/reducers'
 import routes from 'lib/shared/routes'
 
@@ -37,8 +36,10 @@ let initialState = window.__INITIAL_STATE__
 
 const store = createStore(rootReducer, Immutable.fromJS(initialState))
 
-const history = useRouterHistory(createHistory)({
-  basename: config.deploymentURLMapping
+/* process.env.DEPLOYMENT_URL_MAPPING is defined through webpack define plugin */
+console.log('configuring history enchancer using basename: ' + process.env.DEPLOYMENT_URL_MAPPING)
+const history = useRouterHistory(createBrowserHistory)({
+  basename: process.env.DEPLOYMENT_URL_MAPPING
 })
 
 console.log('before (server render)')

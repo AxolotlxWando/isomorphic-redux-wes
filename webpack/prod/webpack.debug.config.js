@@ -48,8 +48,7 @@ module.exports = [
     plugins: [
       new webpack.DefinePlugin({
         'process.env': {
-          'NODE_ENV': JSON.stringify('production'),
-          'DEPLOYMENT_URL_MAPPING': JSON.stringify(config.deploymentURLMapping)
+          'NODE_ENV': JSON.stringify('production')
         }
       })
     ],
@@ -102,7 +101,7 @@ module.exports = [
         }
       }),
       new webpack.optimize.OccurenceOrderPlugin(),
-      new webpack.optimize.CommonsChunkPlugin('common.js', ['bundle']),
+      // new webpack.optimize.CommonsChunkPlugin('common.js', ['bundle']),
       new CopyWebpackPlugin([
         {context: 'assets', from: '**/*'}
       ])
